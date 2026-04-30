@@ -1,4 +1,4 @@
-export const aiAssistantConfig = {
+export const aiassistantconfig = {
   version: "1.0.0",
   theme: "Modern Premium",
   styles: {
