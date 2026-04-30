@@ -1,7 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 
-export default function PropertyCard({ title, location, price, type, image }: { title: string, location: string, price: string, type: string, image: string }) {
+export default function propertycard({ title, location, price, type, image }: { title: string, location: string, price: string, type: string, image: string }) {
   return (
     <motion.div
       whileHover={{ y: -8, scale: 1.01 }}
