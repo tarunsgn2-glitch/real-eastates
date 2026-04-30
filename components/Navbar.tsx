@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-export default function Navbar() {
+export default function navbar() {
   return (
     <nav className="fixed w-full z-50 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50 py-4 px-8 flex justify-between items-center text-zinc-100">
       <div className="text-2xl font-bold bg-gradient-to-r from-amber-400 to-emerald-400 bg-clip-text text-transparent tracking-wider">
