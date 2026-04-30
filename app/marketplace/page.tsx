@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
-import Navbar from '../components/Navbar';
-import PropertyCard from '../components/PropertyCard';
+import navbar from '../components/navbar';
+import propertycard from '../components/propertycard';
 
 export default function Marketplace() {
   return (
