@@ -1,7 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
-import Navbar from '@/components/Navbar';
-import PropertyCard from '@/components/PropertyCard';
+import Navbar from '../components/Navbar';
+import PropertyCard from '../components/PropertyCard';
 import Link from 'next/link';
 
 export default function Home() {
