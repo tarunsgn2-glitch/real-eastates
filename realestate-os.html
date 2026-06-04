@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>RealEstate OS — Smart Property Solutions</title>
+<meta name="description" content="Find your perfect property with RealEstate OS. Buy, sell, rent residential and commercial properties with smart AI-powered real estate solutions."/>
+<meta name="keywords" content="real estate, property, buy, sell, rent, luxury homes, commercial spaces, builders, investment"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --navy:#050e1f;
+  --navy2:#0a1a35;
+  --navy3:#0f2447;
+  --gold:#c9a84c;
+  --gold2:#e8c97a;
+  --gold3:#f5e1a4;
+  --white:#f8f6f2;
+  --white2:#ede8df;
+  --glass:rgba(255,255,255,0.04);
+  --glass2:rgba(255,255,255,0.08);
+  --glass3:rgba(201,168,76,0.08);
+  --border:rgba(201,168,76,0.18);
+  --border2:rgba(255,255,255,0.08);
+  --shadow:0 8px 48px rgba(0,0,0,0.45);
+  --shadow2:0 2px 24px rgba(0,0,0,0.3);
+  --r:16px;
+  --r2:24px;
+  --transition:0.35s cubic-bezier(.4,0,.2,1);
+  --font-display:'Cormorant Garamond',serif;
+  --font-body:'DM Sans',sans-serif;
+}
+[data-theme="light"]{
+  --navy:#f0ede8;
+  --navy2:#e8e4dc;
+  --navy3:#ddd8ce;
+  --white:#0d1b2e;
+  --white2:#1e2f45;
+  --glass:rgba(0,0,0,0.03);
+  --glass2:rgba(0,0,0,0.06);
+  --border:rgba(201,168,76,0.25);
+  --border2:rgba(0,0,0,0.08);
+  --shadow:0 8px 48px rgba(0,0,0,0.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--navy);color:var(--white);font-family:var(--font-body);overflow-x:hidden;cursor:none}
+
+/* CUSTOM CURSOR */
+.cursor{position:fixed;width:10px;height:10px;border-radius:50%;background:var(--gold);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s,opacity .2s;mix-blend-mode:screen}
+.cursor-ring{position:fixed;width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,168,76,.5);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .12s ease-out}
+body:hover .cursor{opacity:1}
+
+/* SCROLL PROGRESS */
+#scroll-progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold2));z-index:10000;width:0%;transition:width .1s linear}
+
+/* NAVBAR */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 40px;height:72px;display:flex;align-items:center;justify-content:space-between;background:transparent;transition:var(--transition)}
+nav.scrolled{background:rgba(5,14,31,0.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+[data-theme="light"] nav.scrolled{background:rgba(240,237,232,0.92)}
+.logo{font-family:var(--font-display);font-size:1.6rem;font-weight:700;color:var(--white);letter-spacing:.02em;display:flex;align-items:center;gap:8px;text-decoration:none}
+.logo span{color:var(--gold)}
+.logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{color:rgba(248,246,242,0.75);text-decoration:none;font-size:.82rem;font-weight:400;padding:6px 10px;border-radius:8px;transition:var(--transition);white-space:nowrap}
+.nav-links a:hover,.nav-links a.active{color:var(--gold);background:var(--glass3)}
+.nav-cta{display:flex;align-items:center;gap:12px}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--white);padding:8px 20px;border-radius:50px;font-family:var(--font-body);font-size:.82rem;cursor:none;transition:var(--transition)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;color:var(--navy);padding:9px 22px;border-radius:50px;font-family:var(--font-body);font-size:.82rem;font-weight:600;cursor:none;transition:var(--transition)}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(201,168,76,.35)}
+.theme-toggle{width:36px;height:36px;border-radius:50%;background:var(--glass2);border:1px solid var(--border2);color:var(--white);display:flex;align-items:center;justify-content:center;cursor:none;transition:var(--transition);font-size:.9rem}
+.theme-toggle:hover{border-color:var(--gold);color:var(--gold)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:none;padding:8px}
+.hamburger span{width:24px;height:1.5px;background:var(--white);transition:var(--transition)}
+
+/* HERO */
+.hero{min-height:100vh;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#010812 0%,var(--navy2) 40%,#071428 100%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.04) 1px,transparent 1px);background-size:80px 80px;animation:gridMove 20s linear infinite}
+@keyframes gridMove{0%{transform:translateY(0)}100%{transform:translateY(80px)}}
+.hero-orbs{position:absolute;inset:0;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);animation:orbFloat 12s ease-in-out infinite alternate}
+.orb1{width:500px;height:500px;background:radial-gradient(circle,rgba(201,168,76,.12),transparent 70%);top:-100px;right:-100px;animation-delay:0s}
+.orb2{width:400px;height:400px;background:radial-gradient(circle,rgba(15,36,71,.8),transparent 70%);bottom:-50px;left:-50px;animation-delay:-4s}
+.orb3{width:300px;height:300px;background:radial-gradient(circle,rgba(201,168,76,.07),transparent 70%);top:50%;left:30%;animation-delay:-8s}
+@keyframes orbFloat{0%{transform:translate(0,0) scale(1)}100%{transform:translate(30px,-30px) scale(1.1)}}
+.hero-content{position:relative;z-index:2;text-align:center;padding:0 20px;max-width:960px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--glass3);border:1px solid var(--border);border-radius:50px;padding:6px 18px;font-size:.78rem;color:var(--gold2);letter-spacing:.12em;text-transform:uppercase;margin-bottom:32px;animation:fadeSlideDown .8s ease .2s both}
+.hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.5)}}
+h1.hero-title{font-family:var(--font-display);font-size:clamp(2.8rem,6vw,5.2rem);font-weight:300;line-height:1.1;color:var(--white);margin-bottom:24px;animation:fadeSlideUp .9s ease .35s both}
+h1.hero-title em{font-style:italic;color:var(--gold);font-weight:400}
+.hero-sub{font-size:1.05rem;color:rgba(248,246,242,.6);max-width:540px;margin:0 auto 48px;line-height:1.7;animation:fadeSlideUp .9s ease .5s both;font-weight:300}
+@keyframes fadeSlideDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+/* SEARCH BAR */
+.search-bar{background:rgba(255,255,255,.06);backdrop-filter:blur(24px);border:1px solid var(--border);border-radius:var(--r2);padding:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:40px;animation:fadeSlideUp .9s ease .65s both;box-shadow:var(--shadow)}
+.search-tabs{display:flex;gap:4px;background:var(--glass);border-radius:12px;padding:4px}
+.search-tab{background:transparent;border:none;color:rgba(248,246,242,.5);padding:7px 18px;border-radius:8px;font-family:var(--font-body);font-size:.82rem;cursor:none;transition:var(--transition)}
+.search-tab.active{background:var(--gold);color:var(--navy);font-weight:600}
+.search-field{flex:1;min-width:150px;display:flex;flex-direction:column;gap:4px;padding:8px 16px;border-left:1px solid var(--border2)}
+.search-field:first-child{border-left:none}
+.search-field label{font-size:.7rem;color:var(--gold2);letter-spacing:.08em;text-transform:uppercase;font-weight:500}
+.search-field select,.search-field input{background:transparent;border:none;color:var(--white);font-family:var(--font-body);font-size:.9rem;outline:none;cursor:none}
+.search-field select option{background:var(--navy2);color:var(--white)}
+.search-btn{background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;color:var(--navy);padding:14px 28px;border-radius:14px;font-family:var(--font-body);font-size:.9rem;font-weight:600;cursor:none;transition:var(--transition);white-space:nowrap;display:flex;align-items:center;gap:8px}
+.search-btn:hover{transform:scale(1.03);box-shadow:0 8px 24px rgba(201,168,76,.4)}
+.hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;animation:fadeSlideUp .9s ease .8s both}
+.btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;color:var(--navy);padding:14px 32px;border-radius:50px;font-family:var(--font-body);font-size:.9rem;font-weight:600;cursor:none;transition:var(--transition);letter-spacing:.02em}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(201,168,76,.4)}
+.btn-outline{background:transparent;border:1.5px solid rgba(248,246,242,.2);color:var(--white);padding:14px 32px;border-radius:50px;font-family:var(--font-body);font-size:.9rem;cursor:none;transition:var(--transition);display:flex;align-items:center;gap:10px}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.play-icon{width:32px;height:32px;background:var(--glass2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem}
+.hero-scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;animation:bounce 2s ease infinite}
+.scroll-line{width:1px;height:60px;background:linear-gradient(to bottom,var(--gold),transparent)}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+/* SECTIONS COMMON */
+section{padding:100px 40px;position:relative}
+.section-label{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:12px}
+h2.section-title{font-family:var(--font-display);font-size:clamp(2rem,4vw,3.4rem);font-weight:300;color:var(--white);line-height:1.15;margin-bottom:16px}
+h2.section-title em{font-style:italic;color:var(--gold)}
+.section-sub{font-size:1rem;color:rgba(248,246,242,.55);max-width:520px;line-height:1.75;font-weight:300}
+.section-header{margin-bottom:60px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.max-w{max-width:1280px;margin:0 auto}
+
+/* STATS */
+.stats-section{padding:60px 40px;background:linear-gradient(90deg,var(--glass3),transparent,var(--glass3));border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;max-width:1280px;margin:0 auto;text-align:center}
+.stat-item{padding:30px 20px}
+.stat-number{font-family:var(--font-display);font-size:3.5rem;font-weight:600;color:var(--gold);line-height:1;margin-bottom:8px}
+.stat-label{font-size:.85rem;color:rgba(248,246,242,.55);letter-spacing:.08em;text-transform:uppercase;font-weight:400}
+.stat-divider{width:1px;background:var(--border);height:80px;margin:auto}
+
+/* SERVICES GRID */
+.services-section{background:var(--navy2)}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;max-width:1280px;margin:0 auto}
+.service-card{background:var(--glass);border:1px solid var(--border2);border-radius:var(--r2);padding:32px 28px;transition:var(--transition);cursor:none;position:relative;overflow:hidden}
+.service-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--glass3),transparent);opacity:0;transition:var(--transition)}
+.service-card:hover{border-color:var(--border);transform:translateY(-6px);box-shadow:var(--shadow)}
+.service-card:hover::before{opacity:1}
+.service-icon{width:52px;height:52px;background:var(--glass3);border:1px solid var(--border);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:20px;transition:var(--transition)}
+.service-card:hover .service-icon{background:var(--gold);transform:scale(1.1)}
+.service-card h3{font-family:var(--font-display);font-size:1.25rem;font-weight:600;color:var(--white);margin-bottom:10px}
+.service-card p{font-size:.85rem;color:rgba(248,246,242,.5);line-height:1.7}
+.service-card .arrow{position:absolute;top:28px;right:28px;width:28px;height:28px;border:1px solid var(--border2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;color:rgba(248,246,242,.3);transition:var(--transition)}
+.service-card:hover .arrow{border-color:var(--gold);color:var(--gold);transform:rotate(45deg)}
+
+/* PROPERTIES */
+.properties-section{background:var(--navy)}
+.properties-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px}
+.filter-btn{background:var(--glass);border:1px solid var(--border2);color:rgba(248,246,242,.6);padding:8px 20px;border-radius:50px;font-family:var(--font-body);font-size:.82rem;cursor:none;transition:var(--transition)}
+.filter-btn.active,.filter-btn:hover{background:var(--gold);border-color:var(--gold);color:var(--navy);font-weight:600}
+.properties-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px;max-width:1280px;margin:0 auto}
+.prop-card{background:var(--navy2);border:1px solid var(--border2);border-radius:var(--r2);overflow:hidden;transition:var(--transition);cursor:none}
+.prop-card:hover{transform:translateY(-8px);box-shadow:var(--shadow);border-color:var(--border)}
+.prop-img{height:220px;background:linear-gradient(135deg,var(--navy3),var(--navy2));position:relative;overflow:hidden}
+.prop-img-inner{width:100%;height:100%;background-size:cover;background-position:center;transition:transform .5s ease}
+.prop-img-inner.img1{background-image:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80')}
+.prop-img-inner.img2{background-image:url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80')}
+.prop-img-inner.img3{background-image:url('https://images.unsplash.com/photo-1613977257363-707ba9348227?w=600&q=80')}
+.prop-img-inner.img4{background-image:url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80')}
+.prop-img-inner.img5{background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80')}
+.prop-img-inner.img6{background-image:url('https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80')}
+.prop-card:hover .prop-img-inner{transform:scale(1.06)}
+.prop-badge{position:absolute;top:16px;left:16px;background:var(--gold);color:var(--navy);font-size:.72rem;font-weight:700;padding:4px 12px;border-radius:50px;letter-spacing:.06em;text-transform:uppercase}
+.prop-actions{position:absolute;top:16px;right:16px;display:flex;gap:8px}
+.prop-action-btn{width:34px;height:34px;background:rgba(5,14,31,.7);backdrop-filter:blur(8px);border:1px solid var(--border2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;cursor:none;transition:var(--transition);color:var(--white)}
+.prop-action-btn:hover{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.prop-info{padding:24px}
+.prop-price{font-family:var(--font-display);font-size:1.7rem;font-weight:600;color:var(--gold);margin-bottom:6px}
+.prop-price span{font-size:.75rem;color:rgba(248,246,242,.4);font-family:var(--font-body);font-weight:400;margin-left:4px}
+.prop-title{font-size:.95rem;font-weight:500;color:var(--white);margin-bottom:6px}
+.prop-loc{font-size:.8rem;color:rgba(248,246,242,.45);display:flex;align-items:center;gap:4px;margin-bottom:16px}
+.prop-features{display:flex;gap:16px;padding-top:16px;border-top:1px solid var(--border2)}
+.prop-feat{display:flex;align-items:center;gap:5px;font-size:.78rem;color:rgba(248,246,242,.5)}
+.prop-feat strong{color:rgba(248,246,242,.8)}
+
+/* INDUSTRIES */
+.industries-section{background:var(--navy2)}
+.industries-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1280px;margin:0 auto}
+.ind-card{border-radius:var(--r2);overflow:hidden;position:relative;cursor:none;aspect-ratio:4/3}
+.ind-card-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .6s ease;filter:brightness(0.5)}
+.ind-card:hover .ind-card-bg{transform:scale(1.08);filter:brightness(0.65)}
+.ind-card-bg.bg1{background-image:url('https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80')}
+.ind-card-bg.bg2{background-image:url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80')}
+.ind-card-bg.bg3{background-image:url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80')}
+.ind-card-bg.bg4{background-image:url('https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=600&q=80')}
+.ind-card-bg.bg5{background-image:url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&q=80')}
+.ind-card-bg.bg6{background-image:url('https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&q=80')}
+.ind-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,14,31,.95) 0%,transparent 60%)}
+.ind-content{position:absolute;bottom:24px;left:24px;right:24px}
+.ind-tag{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold2);margin-bottom:8px}
+.ind-title{font-family:var(--font-display);font-size:1.4rem;font-weight:600;color:var(--white);margin-bottom:6px}
+.ind-count{font-size:.78rem;color:rgba(248,246,242,.5)}
+.ind-card.featured{grid-column:span 2;grid-row:span 2}
+.ind-card.featured .ind-title{font-size:2rem}
+
+/* BUILDERS */
+.builders-section{background:var(--navy)}
+.builders-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px;max-width:1280px;margin:0 auto}
+.builder-card{background:var(--glass);border:1px solid var(--border2);border-radius:var(--r);padding:28px 24px;text-align:center;transition:var(--transition);cursor:none}
+.builder-card:hover{border-color:var(--border);transform:translateY(-4px);background:var(--glass2)}
+.builder-logo{width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,var(--navy3),var(--navy2));border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1.4rem;font-weight:700;color:var(--gold);margin:0 auto 16px}
+.builder-name{font-weight:500;color:var(--white);font-size:.9rem;margin-bottom:4px}
+.builder-projects{font-size:.75rem;color:rgba(248,246,242,.4)}
+.builder-rating{display:flex;align-items:center;justify-content:center;gap:4px;margin-top:8px;font-size:.78rem;color:var(--gold2)}
+
+/* TESTIMONIALS */
+.testimonials-section{background:var(--navy2);overflow:hidden}
+.testimonials-track{display:flex;gap:24px;margin-top:60px;animation:scrollSlide 40s linear infinite}
+.testimonials-track:hover{animation-play-state:paused}
+@keyframes scrollSlide{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.testimonial-card{background:var(--glass);border:1px solid var(--border2);border-radius:var(--r2);padding:36px;min-width:380px;flex-shrink:0;transition:var(--transition)}
+.testimonial-card:hover{border-color:var(--border);background:var(--glass2)}
+.stars{display:flex;gap:3px;margin-bottom:20px}
+.star{color:var(--gold);font-size:.9rem}
+.testi-text{font-family:var(--font-display);font-size:1.15rem;font-weight:300;color:var(--white);line-height:1.7;margin-bottom:24px;font-style:italic}
+.testi-quote{font-size:2rem;color:var(--gold);opacity:.3;line-height:1;margin-bottom:8px}
+.testi-author{display:flex;align-items:center;gap:12px}
+.testi-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--navy)}
+.testi-name{font-weight:500;color:var(--white);font-size:.9rem}
+.testi-role{font-size:.75rem;color:rgba(248,246,242,.4)}
+
+/* BLOG */
+.blog-section{background:var(--navy)}
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:28px;max-width:1280px;margin:0 auto}
+.blog-card{background:var(--navy2);border:1px solid var(--border2);border-radius:var(--r2);overflow:hidden;transition:var(--transition);cursor:none}
+.blog-card:hover{transform:translateY(-6px);border-color:var(--border);box-shadow:var(--shadow2)}
+.blog-img{height:200px;background-size:cover;background-position:center;transition:transform .5s ease}
+.blog-card:hover .blog-img{transform:scale(1.04)}
+.blog-img.bi1{background-image:url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80')}
+.blog-img.bi2{background-image:url('https://images.unsplash.com/photo-1460472178825-e5240623afd5?w=600&q=80')}
+.blog-img.bi3{background-image:url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80')}
+.blog-body{padding:24px}
+.blog-cat{font-size:.72rem;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+.blog-title{font-family:var(--font-display);font-size:1.2rem;font-weight:600;color:var(--white);margin-bottom:10px;line-height:1.4}
+.blog-excerpt{font-size:.82rem;color:rgba(248,246,242,.5);line-height:1.7;margin-bottom:16px}
+.blog-meta{display:flex;align-items:center;gap:12px;font-size:.75rem;color:rgba(248,246,242,.35)}
+.blog-read-more{color:var(--gold);font-size:.82rem;font-weight:500;text-decoration:none;display:inline-flex;align-items:center;gap:4px;transition:var(--transition)}
+.blog-read-more:hover{gap:8px}
+
+/* FAQ */
+.faq-section{background:var(--navy2)}
+.faq-container{max-width:760px;margin:0 auto}
+.faq-item{border-bottom:1px solid var(--border2);overflow:hidden}
+.faq-question{width:100%;display:flex;align-items:center;justify-content:space-between;padding:22px 0;background:transparent;border:none;color:var(--white);font-family:var(--font-body);font-size:.95rem;font-weight:400;cursor:none;text-align:left;gap:16px;transition:var(--transition)}
+.faq-question:hover{color:var(--gold)}
+.faq-icon{width:28px;height:28px;border-radius:50%;border:1px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.8rem;transition:var(--transition)}
+.faq-item.open .faq-icon{background:var(--gold);border-color:var(--gold);color:var(--navy);transform:rotate(45deg)}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height .4s ease;font-size:.88rem;color:rgba(248,246,242,.55);line-height:1.8;padding-bottom:0}
+.faq-item.open .faq-answer{max-height:200px;padding-bottom:20px}
+
+/* ABOUT */
+.about-section{background:var(--navy)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1280px;margin:0 auto}
+.about-visual{position:relative}
+.about-main-img{width:100%;aspect-ratio:4/5;border-radius:var(--r2);object-fit:cover;background:url('https://images.unsplash.com/photo-1600607687939-ce8a6d5b3e94?w=700&q=80') center/cover;box-shadow:var(--shadow)}
+.about-accent-img{position:absolute;bottom:-24px;right:-24px;width:55%;aspect-ratio:1;border-radius:var(--r);background:url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=400&q=80') center/cover;border:4px solid var(--navy);box-shadow:var(--shadow)}
+.about-stat-badge{position:absolute;top:40px;left:-20px;background:rgba(5,14,31,.9);backdrop-filter:blur(16px);border:1px solid var(--border);border-radius:var(--r);padding:16px 20px;font-family:var(--font-display)}
+.about-stat-badge .big{font-size:2rem;font-weight:600;color:var(--gold)}
+.about-stat-badge .sm{font-size:.75rem;color:rgba(248,246,242,.5)}
+.timeline{margin-top:40px;position:relative;padding-left:24px}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--gold),transparent)}
+.timeline-item{position:relative;padding-left:20px;margin-bottom:28px}
+.timeline-item::before{content:'';position:absolute;left:-28px;top:6px;width:8px;height:8px;border-radius:50%;background:var(--gold)}
+.timeline-year{font-size:.72rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
+.timeline-text{font-size:.88rem;color:rgba(248,246,242,.6);line-height:1.6}
+
+/* TEAM */
+.team-section{background:var(--navy2)}
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:24px;max-width:1280px;margin:0 auto}
+.team-card{text-align:center;cursor:none}
+.team-img{width:100%;aspect-ratio:3/4;border-radius:var(--r2);margin-bottom:16px;overflow:hidden;position:relative}
+.team-img-inner{width:100%;height:100%;background-size:cover;background-position:center top;transition:transform .5s ease}
+.team-card:hover .team-img-inner{transform:scale(1.06)}
+.team-img-inner.t1{background-image:url('https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80')}
+.team-img-inner.t2{background-image:url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80')}
+.team-img-inner.t3{background-image:url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80')}
+.team-img-inner.t4{background-image:url('https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80')}
+.team-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,14,31,.7) 0%,transparent 50%);opacity:0;transition:var(--transition)}
+.team-card:hover .team-overlay{opacity:1}
+.team-social{position:absolute;bottom:16px;left:0;right:0;display:flex;justify-content:center;gap:8px;opacity:0;transform:translateY(10px);transition:var(--transition)}
+.team-card:hover .team-social{opacity:1;transform:translateY(0)}
+.team-soc-btn{width:32px;height:32px;border-radius:50%;background:var(--glass2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.75rem;color:var(--white);cursor:none;transition:var(--transition)}
+.team-soc-btn:hover{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.team-name{font-weight:500;color:var(--white);margin-bottom:4px}
+.team-role{font-size:.8rem;color:var(--gold2)}
+
+/* CONTACT */
+.contact-section{background:var(--navy)}
+.contact-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:60px;max-width:1280px;margin:0 auto;align-items:start}
+.contact-info{padding:40px;background:var(--glass);border:1px solid var(--border2);border-radius:var(--r2)}
+.contact-info h3{font-family:var(--font-display);font-size:1.8rem;color:var(--white);margin-bottom:24px}
+.contact-item{display:flex;gap:16px;margin-bottom:24px;align-items:flex-start}
+.contact-icon{width:44px;height:44px;background:var(--glass3);border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.contact-item-text label{font-size:.72rem;color:var(--gold2);letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:4px}
+.contact-item-text span{font-size:.9rem;color:var(--white)}
+.business-hours{background:var(--glass3);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-top:28px}
+.hours-title{font-size:.8rem;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+.hours-row{display:flex;justify-content:space-between;font-size:.82rem;color:rgba(248,246,242,.6);margin-bottom:6px}
+.hours-row span:last-child{color:var(--white)}
+.map-placeholder{width:100%;height:200px;background:linear-gradient(135deg,var(--navy3),var(--navy2));border-radius:var(--r);margin-top:20px;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:rgba(248,246,242,.35);border:1px solid var(--border2);position:relative;overflow:hidden}
+.map-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.05) 1px,transparent 1px);background-size:30px 30px}
+.map-pin{font-size:1.8rem;position:relative;z-index:2;animation:mapPulse 2s ease infinite}
+@keyframes mapPulse{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.contact-form{padding:40px;background:var(--glass);border:1px solid var(--border2);border-radius:var(--r2)}
+.contact-form h3{font-family:var(--font-display);font-size:1.8rem;color:var(--white);margin-bottom:28px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-group{margin-bottom:20px}
+.form-group label{display:block;font-size:.75rem;color:var(--gold2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.form-group input,.form-group select,.form-group textarea{width:100%;background:var(--glass2);border:1px solid var(--border2);border-radius:12px;color:var(--white);font-family:var(--font-body);font-size:.9rem;padding:13px 16px;outline:none;transition:var(--transition);cursor:none}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--gold);background:var(--glass3)}
+.form-group textarea{resize:vertical;min-height:120px}
+.form-group select option{background:var(--navy2)}
+.form-submit{width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;color:var(--navy);padding:14px;border-radius:12px;font-family:var(--font-body);font-size:.95rem;font-weight:600;cursor:none;transition:var(--transition)}
+.form-submit:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(201,168,76,.4)}
+
+/* MARKETPLACE */
+.marketplace-section{background:var(--navy2)}
+.marketplace-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;max-width:1280px;margin:0 auto}
+.market-card{background:var(--glass);border:1px solid var(--border2);border-radius:var(--r2);padding:28px 24px;text-align:center;transition:var(--transition);cursor:none}
+.market-card:hover{border-color:var(--border);transform:translateY(-4px);background:var(--glass2)}
+.market-icon{font-size:2.5rem;margin-bottom:16px}
+.market-card h3{font-size:.95rem;color:var(--white);margin-bottom:6px;font-weight:500}
+.market-card p{font-size:.8rem;color:rgba(248,246,242,.45)}
+.market-count{display:inline-block;margin-top:12px;font-size:.72rem;color:var(--gold);background:var(--glass3);padding:3px 10px;border-radius:50px;border:1px solid var(--border)}
+
+/* FOOTER */
+footer{background:var(--navy2);border-top:1px solid var(--border);padding:80px 40px 40px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;max-width:1280px;margin:0 auto 60px}
+.footer-brand .logo{display:inline-flex;margin-bottom:16px}
+.footer-brand p{font-size:.85rem;color:rgba(248,246,242,.45);line-height:1.7;max-width:280px;margin-bottom:24px}
+.social-links{display:flex;gap:10px}
+.social-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;color:rgba(248,246,242,.5);text-decoration:none;font-size:.9rem;transition:var(--transition);cursor:none}
+.social-btn:hover{border-color:var(--gold);color:var(--gold);background:var(--glass3)}
+.footer-col h4{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);margin-bottom:20px;font-weight:500}
+.footer-col ul{list-style:none}
+.footer-col ul li{margin-bottom:10px}
+.footer-col ul li a{font-size:.85rem;color:rgba(248,246,242,.45);text-decoration:none;transition:var(--transition);cursor:none}
+.footer-col ul li a:hover{color:var(--gold)}
+.newsletter{margin-top:24px}
+.newsletter p{font-size:.8rem;color:rgba(248,246,242,.45);margin-bottom:12px}
+.newsletter-form{display:flex;gap:8px}
+.newsletter-input{flex:1;background:var(--glass);border:1px solid var(--border2);border-radius:10px;padding:10px 14px;color:var(--white);font-family:var(--font-body);font-size:.82rem;outline:none;cursor:none;transition:var(--transition)}
+.newsletter-input:focus{border-color:var(--gold)}
+.newsletter-btn{background:var(--gold);border:none;color:var(--navy);padding:10px 16px;border-radius:10px;font-family:var(--font-body);font-size:.82rem;font-weight:600;cursor:none;transition:var(--transition)}
+.newsletter-btn:hover{background:var(--gold2)}
+.footer-bottom{max-width:1280px;margin:0 auto;padding-top:32px;border-top:1px solid var(--border2);display:flex;justify-content:space-between;align-items:center;flex-wrap:gap;font-size:.8rem;color:rgba(248,246,242,.35)}
+.footer-bottom a{color:rgba(248,246,242,.35);text-decoration:none;transition:var(--transition);cursor:none}
+.footer-bottom a:hover{color:var(--gold)}
+.footer-links{display:flex;gap:20px}
+
+/* MODAL / LEGAL PAGES */
+.modal-overlay{position:fixed;inset:0;background:rgba(5,14,31,.85);backdrop-filter:blur(12px);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal-box{background:var(--navy2);border:1px solid var(--border);border-radius:var(--r2);max-width:760px;width:100%;max-height:80vh;overflow:hidden;display:flex;flex-direction:column}
+.modal-header{padding:24px 32px;border-bottom:1px solid var(--border2);display:flex;justify-content:space-between;align-items:center}
+.modal-header h3{font-family:var(--font-display);font-size:1.6rem;color:var(--white)}
+.modal-close{width:36px;height:36px;border-radius:50%;background:var(--glass);border:1px solid var(--border2);color:var(--white);display:flex;align-items:center;justify-content:center;cursor:none;transition:var(--transition)}
+.modal-close:hover{border-color:var(--gold);color:var(--gold)}
+.modal-body{padding:28px 32px;overflow-y:auto;flex:1}
+.modal-body h4{font-family:var(--font-display);font-size:1.1rem;color:var(--gold2);margin:20px 0 8px}
+.modal-body p{font-size:.88rem;color:rgba(248,246,242,.6);line-height:1.8;margin-bottom:12px}
+
+/* CHAT WIDGET */
+.chat-widget{position:fixed;bottom:32px;right:32px;z-index:500}
+.chat-btn{width:56px;height:56px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;font-size:1.3rem;cursor:none;box-shadow:0 8px 24px rgba(201,168,76,.4);transition:var(--transition)}
+.chat-btn:hover{transform:scale(1.1)}
+.chat-popup{position:absolute;bottom:70px;right:0;width:280px;background:var(--navy2);border:1px solid var(--border);border-radius:var(--r2);padding:20px;display:none}
+.chat-popup.open{display:block;animation:fadeSlideUp .3s ease}
+.chat-popup h4{font-size:.9rem;color:var(--white);margin-bottom:6px}
+.chat-popup p{font-size:.8rem;color:rgba(248,246,242,.5);margin-bottom:14px}
+.chat-popup-btn{width:100%;background:var(--gold);border:none;color:var(--navy);padding:10px;border-radius:10px;font-family:var(--font-body);font-size:.85rem;font-weight:600;cursor:none}
+
+/* SCROLL ANIMATIONS */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-left{opacity:0;transform:translateX(-40px);transition:opacity .7s ease,transform .7s ease}
+.reveal-left.visible{opacity:1;transform:translateX(0)}
+.reveal-right{opacity:0;transform:translateX(40px);transition:opacity .7s ease,transform .7s ease}
+.reveal-right.visible{opacity:1;transform:translateX(0)}
+.stagger>*{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
+.stagger.visible>*:nth-child(1){opacity:1;transform:translateY(0);transition-delay:.05s}
+.stagger.visible>*:nth-child(2){opacity:1;transform:translateY(0);transition-delay:.15s}
+.stagger.visible>*:nth-child(3){opacity:1;transform:translateY(0);transition-delay:.25s}
+.stagger.visible>*:nth-child(4){opacity:1;transform:translateY(0);transition-delay:.35s}
+.stagger.visible>*:nth-child(5){opacity:1;transform:translateY(0);transition-delay:.45s}
+.stagger.visible>*:nth-child(6){opacity:1;transform:translateY(0);transition-delay:.55s}
+.stagger.visible>*:nth-child(7){opacity:1;transform:translateY(0);transition-delay:.65s}
+.stagger.visible>*:nth-child(8){opacity:1;transform:translateY(0);transition-delay:.75s}
+
+/* WHY CHOOSE US */
+.why-section{background:var(--navy2)}
+.why-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:80px;align-items:center;max-width:1280px;margin:0 auto}
+.why-features{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.why-feat{background:var(--glass);border:1px solid var(--border2);border-radius:var(--r);padding:24px;transition:var(--transition);cursor:none}
+.why-feat:hover{border-color:var(--border);background:var(--glass2)}
+.why-feat-icon{font-size:1.6rem;margin-bottom:12px}
+.why-feat h4{font-size:.9rem;color:var(--white);margin-bottom:6px;font-weight:500}
+.why-feat p{font-size:.78rem;color:rgba(248,246,242,.45);line-height:1.6}
+
+/* MOBILE */
+@media(max-width:1024px){
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .industries-grid{grid-template-columns:1fr 1fr}
+  .ind-card.featured{grid-column:span 1;grid-row:span 1}
+  .marketplace-grid{grid-template-columns:repeat(2,1fr)}
+  .about-grid,.why-grid,.contact-grid{grid-template-columns:1fr}
+  .about-accent-img{display:none}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .stat-divider{display:none}
+}
+@media(max-width:768px){
+  nav{padding:0 20px}
+  .nav-links,.nav-cta .btn-ghost{display:none}
+  .hamburger{display:flex}
+  section{padding:70px 20px}
+  .footer-grid{grid-template-columns:1fr}
+  .industries-grid{grid-template-columns:1fr}
+  .properties-grid{grid-template-columns:1fr}
+  .team-grid{grid-template-columns:repeat(2,1fr)}
+  .grid-2{grid-template-columns:1fr}
+  .search-bar{flex-direction:column}
+  .search-field{border-left:none;border-top:1px solid var(--border2)}
+  .search-field:first-child{border-top:none}
+  .form-row{grid-template-columns:1fr}
+  .footer-bottom{flex-direction:column;gap:16px;text-align:center}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  h2.section-title{font-size:2rem}
+  .marketplace-grid{grid-template-columns:1fr 1fr}
+  .why-features{grid-template-columns:1fr}
+}
+
+/* MOBILE NAV */
+.mobile-nav{position:fixed;inset:0;background:rgba(5,14,31,.97);backdrop-filter:blur(20px);z-index:999;display:none;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.mobile-nav.open{display:flex}
+.mobile-nav a{color:var(--white);text-decoration:none;font-family:var(--font-display);font-size:2rem;font-weight:300;transition:var(--transition);cursor:none}
+.mobile-nav a:hover{color:var(--gold)}
+.mobile-nav-close{position:absolute;top:24px;right:24px;width:44px;height:44px;background:var(--glass);border:1px solid var(--border2);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:none;color:var(--white);font-size:1.1rem;transition:var(--transition)}
+.mobile-nav-close:hover{border-color:var(--gold);color:var(--gold)}
+
+/* LUXURY BADGE STRIP */
+.luxury-strip{background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold));padding:10px 0;overflow:hidden;position:relative}
+.luxury-strip-inner{display:flex;gap:60px;animation:stripScroll 20s linear infinite;white-space:nowrap}
+.luxury-strip-inner span{font-size:.72rem;letter-spacing:.25em;text-transform:uppercase;color:var(--navy);font-weight:600;display:flex;align-items:center;gap:12px}
+.luxury-strip-inner span::after{content:'◆';font-size:.5rem;opacity:.5}
+@keyframes stripScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+</style>
+</head>
+<body>
+<!-- Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<!-- Scroll Progress -->
+<div id="scroll-progress"></div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#home" class="logo"><div class="logo-icon">⌂</div>RealEstate<span>OS</span></a>
+  <div class="nav-links">
+    <a href="#home" class="active">Home</a>
+    <a href="#properties">Properties</a>
+    <a href="#industries">Buy</a>
+    <a href="#industries">Sell</a>
+    <a href="#industries">Rent</a>
+    <a href="#industries">Commercial</a>
+    <a href="#industries">Residential</a>
+    <a href="#luxury">Luxury</a>
+    <a href="#builders">Builders</a>
+    <a href="#marketplace">Marketplace</a>
+    <a href="#services">Services</a>
+    <a href="#about">About Us</a>
+    <a href="#blog">Blog</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="nav-cta">
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">☀</button>
+    <button class="btn-ghost">Sign In</button>
+    <button class="btn-gold">List Property</button>
+    <div class="hamburger" onclick="toggleMobileNav()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <div class="mobile-nav-close" onclick="toggleMobileNav()">✕</div>
+  <a href="#home" onclick="toggleMobileNav()">Home</a>
+  <a href="#properties" onclick="toggleMobileNav()">Properties</a>
+  <a href="#industries" onclick="toggleMobileNav()">Buy / Rent</a>
+  <a href="#builders" onclick="toggleMobileNav()">Builders</a>
+  <a href="#marketplace" onclick="toggleMobileNav()">Marketplace</a>
+  <a href="#services" onclick="toggleMobileNav()">Services</a>
+  <a href="#about" onclick="toggleMobileNav()">About Us</a>
+  <a href="#blog" onclick="toggleMobileNav()">Blog</a>
+  <a href="#contact" onclick="toggleMobileNav()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-orbs"><div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div></div>
+  <div class="hero-content">
+    <div class="hero-badge">🏆 India's Most Trusted Real Estate Platform</div>
+    <h1 class="hero-title">Find Your <em>Perfect Property</em><br>With Smart Real Estate Solutions</h1>
+    <p class="hero-sub">Discover premium residential, commercial, and luxury properties with intelligent matching, verified listings, and end-to-end property services.</p>
+    <div class="search-bar">
+      <div class="search-tabs">
+        <button class="search-tab active" onclick="setTab(this)">Buy</button>
+        <button class="search-tab" onclick="setTab(this)">Rent</button>
+        <button class="search-tab" onclick="setTab(this)">Commercial</button>
+      </div>
+      <div class="search-field"><label>Location</label><input type="text" placeholder="City, Area, Pincode..."/></div>
+      <div class="search-field"><label>Property Type</label><select><option>All Types</option><option>Apartment</option><option>Villa</option><option>Independent House</option><option>Plot</option><option>Commercial</option></select></div>
+      <div class="search-field"><label>Budget</label><select><option>Any Budget</option><option>Under ₹25L</option><option>₹25L – ₹50L</option><option>₹50L – ₹1Cr</option><option>₹1Cr – ₹2Cr</option><option>Above ₹2Cr</option></select></div>
+      <button class="search-btn">🔍 Search Properties</button>
+    </div>
+    <div class="hero-ctas">
+      <button class="btn-primary">Explore Properties</button>
+      <button class="btn-outline"><div class="play-icon">▶</div>Book Consultation</button>
+    </div>
+  </div>
+  <div class="hero-scroll-hint"><div class="scroll-line"></div></div>
+</section>
+
+<!-- LUXURY STRIP -->
+<div class="luxury-strip"><div class="luxury-strip-inner">
+  <span>Premium Properties</span><span>Verified Listings</span><span>Smart Valuations</span>
+  <span>Legal Assistance</span><span>Home Loans</span><span>Interior Design</span>
+  <span>Construction Services</span><span>Investment Consulting</span>
+  <span>Premium Properties</span><span>Verified Listings</span><span>Smart Valuations</span>
+  <span>Legal Assistance</span><span>Home Loans</span><span>Interior Design</span>
+  <span>Construction Services</span><span>Investment Consulting</span>
+</div></div>
+
+<!-- STATS -->
+<div class="stats-section">
+  <div class="stats-grid">
+    <div class="stat-item reveal"><div class="stat-number" data-target="18500">0</div><div class="stat-label">Properties Sold</div></div>
+    <div class="stat-item reveal"><div class="stat-number" data-target="12400">0</div><div class="stat-label">Happy Clients</div></div>
+    <div class="stat-item reveal"><div class="stat-number" data-target="48">0</div><div class="stat-label">Cities Covered</div></div>
+    <div class="stat-item reveal"><div class="stat-number" data-target="320">0</div><div class="stat-label">Builders Connected</div></div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services-section" id="services">
+  <div class="max-w">
+    <div class="section-header reveal">
+      <div class="section-label">What We Offer</div>
+      <h2 class="section-title">Complete Real Estate <em>Services</em></h2>
+      <p class="section-sub">From finding your dream home to managing your investment portfolio — we cover every aspect of your real estate journey.</p>
+    </div>
+    <div class="services-grid stagger">
+      <div class="service-card"><div class="service-icon">🏠</div><h3>Property Buying</h3><p>Discover verified properties with smart filters, virtual tours, and expert guidance throughout the purchase journey.</p><div class="arrow">→</div></div>
+      <div class="service-card"><div class="service-icon">💰</div><h3>Property Selling</h3><p>Get maximum value for your property with AI-powered pricing, premium listings, and our vast buyer network.</p><div class="arrow">→</div></div>
+      <div class="service-card"><div class="service-icon">🔑</div><h3>Property Renting</h3><p>Find your ideal rental or list your property for rent with seamless tenant verification and lease management.</p><div class="arrow">→</div></div>
+      <div class="service-card"><div class="service-icon">⚖️</div><h3>Legal Assistance</h3><p>Navigate property documentation, title verification, and legal processes with our expert legal panel.</p><div class="arrow">→</div></div>
+      <div class="service-card"><div class="service-icon">🏦</div><h3>Home Loan Assistance</h3><p>Compare loan offers from 20+ banks, get instant eligibility checks and doorstep documentation support.</p><div class="arrow">→</div></div>
+      <div class="service-card"><div class="service-icon">📊</div><h3>Property Valuation</h3><p>Accurate, data-driven property valuations using AI market analysis and comparable sales data.</p><div class="arrow">→</div></div>
+      <div class="service-card"><div class="service-icon">🎨</div><h3>Interior Design</h3><p>Transform your space with our curated network of award-winning interior designers and architects.</p><div class="arrow">→</div></div>
+      <div class="service-card"><div class="service-icon">🏗️</div><h3>Construction Services</h3><p>End-to-end construction and renovation services with quality-assured contractors and project management.</p><div class="arrow">→</div></div>
+      <div class="service-card"><div class="service-icon">📋</div><h3>Property Management</h3><p>Comprehensive management services for landlords — rent collection, maintenance, tenant management.</p><div class="arrow">→</div></div>
+      <div class="service-card"><div class="service-icon">📈</div><h3>Investment Consulting</h3><p>Strategic real estate investment advice, portfolio analysis, and ROI optimization from certified advisors.</p><div class="arrow">→</div></div>
+      <div class="service-card"><div class="service-icon">📄</div><h3>Documentation</h3><p>Hassle-free property registration, mutation, and all government documentation handled by our experts.</p><div class="arrow">→</div></div>
+      <div class="service-card"><div class="service-icon">🏛️</div><h3>Architecture Services</h3><p>Innovative architectural design for residential, commercial, and industrial projects by licensed architects.</p><div class="arrow">→</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED PROPERTIES -->
+<section class="properties-section" id="properties">
+  <div class="max-w">
+    <div class="section-header reveal">
+      <div class="section-label">Featured Listings</div>
+      <h2 class="section-title">Premium <em>Properties</em><br>Handpicked For You</h2>
+      <p class="section-sub">Explore our curated selection of verified premium properties across major cities.</p>
+    </div>
+    <div class="properties-filters stagger">
+      <button class="filter-btn active">All</button>
+      <button class="filter-btn">Apartments</button>
+      <button class="filter-btn">Villas</button>
+      <button class="filter-btn">Commercial</button>
+      <button class="filter-btn">Plots</button>
+      <button class="filter-btn">Luxury</button>
+    </div>
+    <div class="properties-grid stagger">
+      <div class="prop-card">
+        <div class="prop-img"><div class="prop-img-inner img1"></div>
+          <div class="prop-badge">Featured</div>
+          <div class="prop-actions"><button class="prop-action-btn" title="Save">♡</button><button class="prop-action-btn" title="Compare">⊕</button></div>
+        </div>
+        <div class="prop-info">
+          <div class="prop-price">₹2.8 Cr <span>onwards</span></div>
+          <div class="prop-title">Skyline Heights — 3 BHK Premium Apartment</div>
+          <div class="prop-loc">📍 Baner, Pune</div>
+          <div class="prop-features">
+            <div class="prop-feat"><strong>3</strong> Beds</div>
+            <div class="prop-feat"><strong>2</strong> Baths</div>
+            <div class="prop-feat"><strong>1,840</strong> sq.ft</div>
+            <div class="prop-feat">🅿 Parking</div>
+          </div>
+        </div>
+      </div>
+      <div class="prop-card">
+        <div class="prop-img"><div class="prop-img-inner img2"></div>
+          <div class="prop-badge" style="background:var(--navy3);color:var(--gold)">Luxury</div>
+          <div class="prop-actions"><button class="prop-action-btn">♡</button><button class="prop-action-btn">⊕</button></div>
+        </div>
+        <div class="prop-info">
+          <div class="prop-price">₹7.5 Cr <span>onwards</span></div>
+          <div class="prop-title">Emerald Villa — Independent 4 BHK Villa</div>
+          <div class="prop-loc">📍 Koregaon Park, Pune</div>
+          <div class="prop-features">
+            <div class="prop-feat"><strong>4</strong> Beds</div>
+            <div class="prop-feat"><strong>4</strong> Baths</div>
+            <div class="prop-feat"><strong>4,200</strong> sq.ft</div>
+            <div class="prop-feat">🏊 Pool</div>
+          </div>
+        </div>
+      </div>
+      <div class="prop-card">
+        <div class="prop-img"><div class="prop-img-inner img3"></div>
+          <div class="prop-badge" style="background:#10b981;color:#fff">New Launch</div>
+          <div class="prop-actions"><button class="prop-action-btn">♡</button><button class="prop-action-btn">⊕</button></div>
+        </div>
+        <div class="prop-info">
+          <div class="prop-price">₹1.45 Cr <span>onwards</span></div>
+          <div class="prop-title">Greenview Residency — 2 BHK Apartment</div>
+          <div class="prop-loc">📍 Wakad, Pune</div>
+          <div class="prop-features">
+            <div class="prop-feat"><strong>2</strong> Beds</div>
+            <div class="prop-feat"><strong>2</strong> Baths</div>
+            <div class="prop-feat"><strong>1,120</strong> sq.ft</div>
+            <div class="prop-feat">🌳 Garden</div>
+          </div>
+        </div>
+      </div>
+      <div class="prop-card">
+        <div class="prop-img"><div class="prop-img-inner img4"></div>
+          <div class="prop-badge" style="background:#f97316;color:#fff">Hot Deal</div>
+          <div class="prop-actions"><button class="prop-action-btn">♡</button><button class="prop-action-btn">⊕</button></div>
+        </div>
+        <div class="prop-info">
+          <div class="prop-price">₹3.2 Cr <span>onwards</span></div>
+          <div class="prop-title">Prestige Square — Office Space 2500 sq.ft</div>
+          <div class="prop-loc">📍 Hinjewadi, Pune</div>
+          <div class="prop-features">
+            <div class="prop-feat"><strong>2500</strong> sq.ft</div>
+            <div class="prop-feat"><strong>1</strong> Floor</div>
+            <div class="prop-feat">💼 Ready</div>
+            <div class="prop-feat">🅿 10 Cars</div>
+          </div>
+        </div>
+      </div>
+      <div class="prop-card">
+        <div class="prop-img"><div class="prop-img-inner img5"></div>
+          <div class="prop-badge">Ready to Move</div>
+          <div class="prop-actions"><button class="prop-action-btn">♡</button><button class="prop-action-btn">⊕</button></div>
+        </div>
+        <div class="prop-info">
+          <div class="prop-price">₹58 L <span>onwards</span></div>
+          <div class="prop-title">Sunflower Enclave — 2 BHK Flat</div>
+          <div class="prop-loc">📍 Kothrud, Pune</div>
+          <div class="prop-features">
+            <div class="prop-feat"><strong>2</strong> Beds</div>
+            <div class="prop-feat"><strong>2</strong> Baths</div>
+            <div class="prop-feat"><strong>890</strong> sq.ft</div>
+            <div class="prop-feat">🛗 Lift</div>
+          </div>
+        </div>
+      </div>
+      <div class="prop-card">
+        <div class="prop-img"><div class="prop-img-inner img6"></div>
+          <div class="prop-badge" style="background:var(--navy3);color:var(--gold)">Luxury</div>
+          <div class="prop-actions"><button class="prop-action-btn">♡</button><button class="prop-action-btn">⊕</button></div>
+        </div>
+        <div class="prop-info">
+          <div class="prop-price">₹12 Cr <span>onwards</span></div>
+          <div class="prop-title">The Pinnacle — 5 BHK Penthouse</div>
+          <div class="prop-loc">📍 Lavasa, Pune</div>
+          <div class="prop-features">
+            <div class="prop-feat"><strong>5</strong> Beds</div>
+            <div class="prop-feat"><strong>5</strong> Baths</div>
+            <div class="prop-feat"><strong>6,800</strong> sq.ft</div>
+            <div class="prop-feat">🌅 View</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:48px"><button class="btn-primary reveal">View All Properties</button></div>
+  </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section class="industries-section" id="industries">
+  <div class="max-w">
+    <div class="section-header reveal">
+      <div class="section-label">Our Coverage</div>
+      <h2 class="section-title">Every Real Estate <em>Industry</em></h2>
+      <p class="section-sub">From studio apartments to industrial warehouses — we cover the entire spectrum of real estate.</p>
+    </div>
+    <div class="industries-grid">
+      <div class="ind-card featured">
+        <div class="ind-card-bg bg1"></div>
+        <div class="ind-overlay"></div>
+        <div class="ind-content">
+          <div class="ind-tag">Residential</div>
+          <div class="ind-title">Luxury Homes & Villas</div>
+          <div class="ind-count">2,400+ listings · Apartments · Villas · Independent Houses · Farmhouses</div>
+        </div>
+      </div>
+      <div class="ind-card">
+        <div class="ind-card-bg bg2"></div>
+        <div class="ind-overlay"></div>
+        <div class="ind-content">
+          <div class="ind-tag">Commercial</div>
+          <div class="ind-title">Office & Retail Spaces</div>
+          <div class="ind-count">850+ listings</div>
+        </div>
+      </div>
+      <div class="ind-card">
+        <div class="ind-card-bg bg3"></div>
+        <div class="ind-overlay"></div>
+        <div class="ind-content">
+          <div class="ind-tag">Land & Plots</div>
+          <div class="ind-title">Prime Land Parcels</div>
+          <div class="ind-count">1,100+ listings</div>
+        </div>
+      </div>
+      <div class="ind-card">
+        <div class="ind-card-bg bg4"></div>
+        <div class="ind-overlay"></div>
+        <div class="ind-content">
+          <div class="ind-tag">Industrial</div>
+          <div class="ind-title">Warehouses & Factories</div>
+          <div class="ind-count">420+ listings</div>
+        </div>
+      </div>
+      <div class="ind-card">
+        <div class="ind-card-bg bg5"></div>
+        <div class="ind-overlay"></div>
+        <div class="ind-content">
+          <div class="ind-tag">Investment</div>
+          <div class="ind-title">Under Construction</div>
+          <div class="ind-count">680+ projects</div>
+        </div>
+      </div>
+      <div class="ind-card">
+        <div class="ind-card-bg bg6"></div>
+        <div class="ind-overlay"></div>
+        <div class="ind-content">
+          <div class="ind-tag">Co-working</div>
+          <div class="ind-title">Smart Work Spaces</div>
+          <div class="ind-count">240+ spaces</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUILDERS & PROJECTS -->
+<section class="builders-section" id="builders">
+  <div class="max-w">
+    <div class="section-header reveal">
+      <div class="section-label">Trusted Partners</div>
+      <h2 class="section-title">Top <em>Builders</em> & Developers</h2>
+      <p class="section-sub">Partnered with India's most reputed builders for quality-assured new projects and developments.</p>
+    </div>
+    <div class="builders-grid stagger">
+      <div class="builder-card"><div class="builder-logo">PD</div><div class="builder-name">Paranjape Developers</div><div class="builder-projects">48 Active Projects</div><div class="builder-rating">★★★★★ 4.8</div></div>
+      <div class="builder-card"><div class="builder-logo">RG</div><div class="builder-name">Rohan Garima</div><div class="builder-projects">32 Active Projects</div><div class="builder-rating">★★★★★ 4.9</div></div>
+      <div class="builder-card"><div class="builder-logo">KP</div><div class="builder-name">Kolte-Patil</div><div class="builder-projects">61 Active Projects</div><div class="builder-rating">★★★★☆ 4.7</div></div>
+      <div class="builder-card"><div class="builder-logo">VM</div><div class="builder-name">VTP Realty</div><div class="builder-projects">27 Active Projects</div><div class="builder-rating">★★★★★ 4.8</div></div>
+      <div class="builder-card"><div class="builder-logo">PP</div><div class="builder-name">Pride Purple</div><div class="builder-projects">40 Active Projects</div><div class="builder-rating">★★★★☆ 4.6</div></div>
+      <div class="builder-card"><div class="builder-logo">MA</div><div class="builder-name">Marvel Realtors</div><div class="builder-projects">19 Active Projects</div><div class="builder-rating">★★★★★ 4.9</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MARKETPLACE -->
+<section class="marketplace-section" id="marketplace">
+  <div class="max-w">
+    <div class="section-header reveal">
+      <div class="section-label">Marketplace</div>
+      <h2 class="section-title">Everything For Your <em>Home</em></h2>
+      <p class="section-sub">One-stop destination for furniture, décor, smart home devices, and construction materials.</p>
+    </div>
+    <div class="marketplace-grid stagger">
+      <div class="market-card"><div class="market-icon">🛋️</div><h3>Furniture</h3><p>Premium furniture collections for every room</p><div class="market-count">2,400+ Products</div></div>
+      <div class="market-card"><div class="market-icon">🖼️</div><h3>Home Décor</h3><p>Curated décor pieces from top designers</p><div class="market-count">1,800+ Products</div></div>
+      <div class="market-card"><div class="market-icon">🏗️</div><h3>Construction Materials</h3><p>Quality certified materials at best prices</p><div class="market-count">3,200+ Products</div></div>
+      <div class="market-card"><div class="market-icon">📱</div><h3>Smart Home</h3><p>Automate your home with IoT devices</p><div class="market-count">640+ Devices</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section class="why-section" id="luxury">
+  <div class="why-grid">
+    <div class="reveal-left">
+      <div class="section-label">Why RealEstate OS</div>
+      <h2 class="section-title">The Smarter Way<br>to <em>Invest in Property</em></h2>
+      <p class="section-sub" style="margin-bottom:36px">We combine cutting-edge technology with deep market expertise to give you a distinct advantage in every real estate transaction.</p>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-year">2015</div><div class="timeline-text">Founded with a vision to digitize India's real estate market</div></div>
+        <div class="timeline-item"><div class="timeline-year">2018</div><div class="timeline-text">Expanded to 20 cities, partnered with 100+ top builders</div></div>
+        <div class="timeline-item"><div class="timeline-year">2021</div><div class="timeline-text">Launched AI-powered property valuation and smart matching</div></div>
+        <div class="timeline-item"><div class="timeline-year">2024</div><div class="timeline-text">India's #1 real estate platform with ₹10,000 Cr+ in transactions</div></div>
+      </div>
+    </div>
+    <div class="reveal-right">
+      <div class="why-features">
+        <div class="why-feat"><div class="why-feat-icon">🤖</div><h4>AI-Powered Matching</h4><p>Smart algorithms that learn your preferences and surface the most relevant properties</p></div>
+        <div class="why-feat"><div class="why-feat-icon">✅</div><h4>Verified Listings</h4><p>Every property is physically verified by our experts before going live on the platform</p></div>
+        <div class="why-feat"><div class="why-feat-icon">🔒</div><h4>Secure Transactions</h4><p>Bank-grade security and escrow-protected payment flows for safe property transactions</p></div>
+        <div class="why-feat"><div class="why-feat-icon">📍</div><h4>48 Cities Coverage</h4><p>Extensive network across Tier 1 and Tier 2 cities with deep local market insights</p></div>
+        <div class="why-feat"><div class="why-feat-icon">💬</div><h4>24/7 Expert Support</h4><p>Dedicated relationship managers available around the clock for all your queries</p></div>
+        <div class="why-feat"><div class="why-feat-icon">📊</div><h4>Market Intelligence</h4><p>Real-time pricing data, market trends, and investment ROI calculators at your fingertips</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div class="max-w">
+    <div class="section-header reveal">
+      <div class="section-label">Client Stories</div>
+      <h2 class="section-title">What Our Clients <em>Say</em></h2>
+    </div>
+  </div>
+  <div class="testimonials-track">
+    <div class="testimonial-card"><div class="testi-quote">"</div><div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div><div class="testi-text">RealEstate OS made buying my first home completely stress-free. Their team guided me through every step, from property selection to registration.</div><div class="testi-author"><div class="testi-avatar">R</div><div><div class="testi-name">Rahul Sharma</div><div class="testi-role">Homebuyer · Pune</div></div></div></div>
+    <div class="testimonial-card"><div class="testi-quote">"</div><div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div><div class="testi-text">Sold my commercial property in just 3 weeks at a price I couldn't have imagined. The AI valuation was spot on and the marketing was exceptional.</div><div class="testi-author"><div class="testi-avatar">P</div><div><div class="testi-name">Priya Mehta</div><div class="testi-role">Property Seller · Mumbai</div></div></div></div>
+    <div class="testimonial-card"><div class="testi-quote">"</div><div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div><div class="testi-text">The investment consulting team helped me build a diversified portfolio. My real estate investments have outperformed the market by 24% this year.</div><div class="testi-author"><div class="testi-avatar">A</div><div><div class="testi-name">Arjun Kapoor</div><div class="testi-role">Real Estate Investor · Bangalore</div></div></div></div>
+    <div class="testimonial-card"><div class="testi-quote">"</div><div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div><div class="testi-text">As an NRI, I was worried about investing remotely. RealEstate OS's virtual tours and dedicated NRI desk made the entire process seamless and transparent.</div><div class="testi-author"><div class="testi-avatar">S</div><div><div class="testi-name">Sunita Patel</div><div class="testi-role">NRI Buyer · Dubai</div></div></div></div>
+    <div class="testimonial-card"><div class="testi-quote">"</div><div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div><div class="testi-text">Their legal team handled everything from title verification to registration. I never had to worry about anything. Truly a one-stop solution!</div><div class="testi-author"><div class="testi-avatar">K</div><div><div class="testi-name">Kiran Nair</div><div class="testi-role">Villa Owner · Goa</div></div></div></div>
+    <!-- Duplicate for seamless loop -->
+    <div class="testimonial-card"><div class="testi-quote">"</div><div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div><div class="testi-text">RealEstate OS made buying my first home completely stress-free. Their team guided me through every step, from property selection to registration.</div><div class="testi-author"><div class="testi-avatar">R</div><div><div class="testi-name">Rahul Sharma</div><div class="testi-role">Homebuyer · Pune</div></div></div></div>
+    <div class="testimonial-card"><div class="testi-quote">"</div><div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div><div class="testi-text">Sold my commercial property in just 3 weeks at a price I couldn't have imagined. The AI valuation was spot on and the marketing was exceptional.</div><div class="testi-author"><div class="testi-avatar">P</div><div><div class="testi-name">Priya Mehta</div><div class="testi-role">Property Seller · Mumbai</div></div></div></div>
+    <div class="testimonial-card"><div class="testi-quote">"</div><div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div><div class="testi-text">The investment consulting team helped me build a diversified portfolio. My real estate investments have outperformed the market by 24% this year.</div><div class="testi-author"><div class="testi-avatar">A</div><div><div class="testi-name">Arjun Kapoor</div><div class="testi-role">Real Estate Investor · Bangalore</div></div></div></div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section class="blog-section" id="blog">
+  <div class="max-w">
+    <div class="section-header reveal">
+      <div class="section-label">Knowledge Hub</div>
+      <h2 class="section-title">Real Estate <em>Insights</em></h2>
+      <p class="section-sub">Stay ahead with market trends, investment strategies, and expert advice from our real estate analysts.</p>
+    </div>
+    <div class="blog-grid stagger">
+      <div class="blog-card">
+        <div class="blog-img bi1"></div>
+        <div class="blog-body">
+          <div class="blog-cat">Market Trends</div>
+          <div class="blog-title">Pune Real Estate Market 2025: Growth Corridors & Hotspots</div>
+          <div class="blog-excerpt">An in-depth analysis of Pune's expanding real estate landscape, highlighting emerging micro-markets with exceptional growth potential.</div>
+          <div class="blog-meta"><span>📅 May 12, 2025</span><span>⏱ 6 min read</span></div>
+          <a class="blog-read-more" href="#">Read More →</a>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-img bi2"></div>
+        <div class="blog-body">
+          <div class="blog-cat">Investment Guide</div>
+          <div class="blog-title">Commercial vs Residential: Where Should You Invest in 2025?</div>
+          <div class="blog-excerpt">A comprehensive guide comparing returns, risks, and liquidity between commercial and residential real estate investments.</div>
+          <div class="blog-meta"><span>📅 Apr 28, 2025</span><span>⏱ 8 min read</span></div>
+          <a class="blog-read-more" href="#">Read More →</a>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-img bi3"></div>
+        <div class="blog-body">
+          <div class="blog-cat">Home Buying Tips</div>
+          <div class="blog-title">First-Time Buyer's Complete Checklist: From Search to Registration</div>
+          <div class="blog-excerpt">Everything a first-time homebuyer needs to know — from budget planning and property selection to loan approval and possession.</div>
+          <div class="blog-meta"><span>📅 Apr 10, 2025</span><span>⏱ 10 min read</span></div>
+          <a class="blog-read-more" href="#">Read More →</a>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:48px"><button class="btn-primary reveal">View All Articles</button></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="max-w">
+    <div class="section-header reveal" style="text-align:center;align-items:center">
+      <div class="section-label">FAQ</div>
+      <h2 class="section-title">Frequently Asked <em>Questions</em></h2>
+    </div>
+    <div class="faq-container reveal">
+      <div class="faq-item open">
+        <button class="faq-question" onclick="toggleFAQ(this)"><span>How do I start my property search on RealEstate OS?</span><div class="faq-icon">+</div></button>
+        <div class="faq-answer">Use our smart search bar on the homepage to enter your preferred location, property type, and budget. You can also use our advanced filters to narrow down by BHK configuration, amenities, possession status, and more. Our AI will surface the most relevant listings matching your criteria.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFAQ(this)"><span>Are all listings verified on your platform?</span><div class="faq-icon">+</div></button>
+        <div class="faq-answer">Yes. Every property listed on RealEstate OS goes through a rigorous 3-step verification process: document verification, physical inspection by our field team, and legal title check. Verified properties carry our "ROS Verified" badge for your peace of mind.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFAQ(this)"><span>Can you assist with home loan applications?</span><div class="faq-icon">+</div></button>
+        <div class="faq-answer">Absolutely! Our Home Loan Assistance team works with 20+ leading banks and NBFCs to get you the best interest rates. We handle everything from eligibility assessment and document collection to loan disbursement, completely free of charge.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFAQ(this)"><span>How accurate is the AI property valuation?</span><div class="faq-icon">+</div></button>
+        <div class="faq-answer">Our AI valuation engine analyzes 50+ data points including recent comparable sales, location factors, infrastructure developments, and market trends. It typically delivers valuations within 3-5% of actual transaction prices, with the option for a certified physical valuation for higher accuracy.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFAQ(this)"><span>What legal services do you offer for property transactions?</span><div class="faq-icon">+</div></button>
+        <div class="faq-answer">We provide comprehensive legal support including title search and verification, due diligence reports, agreement drafting, stamp duty calculation and payment, property registration, mutation applications, and ongoing legal consultation through our empaneled property lawyers.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFAQ(this)"><span>Do you serve NRI (Non-Resident Indian) buyers?</span><div class="faq-icon">+</div></button>
+        <div class="faq-answer">Yes, we have a dedicated NRI Desk with specialized advisors who understand FEMA regulations, repatriation rules, and tax implications for NRI property investments. We offer virtual property tours, Power of Attorney guidance, and complete remote transaction support.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="about-grid">
+    <div class="about-visual reveal-left">
+      <div class="about-main-img"></div>
+      <div class="about-accent-img"></div>
+      <div class="about-stat-badge"><div class="big">9+</div><div class="sm">Years of Excellence</div></div>
+    </div>
+    <div class="reveal-right">
+      <div class="section-label">Our Story</div>
+      <h2 class="section-title">Building Trust, One <em>Property</em> at a Time</h2>
+      <p class="section-sub" style="margin-bottom:24px">Founded in 2015, RealEstate OS was born from a simple belief: buying or selling property should be transparent, efficient, and stress-free for everyone.</p>
+      <p style="font-size:.88rem;color:rgba(248,246,242,.5);line-height:1.8;margin-bottom:28px">Today, we are India's most trusted real estate platform, having facilitated over 18,500 successful property transactions worth ₹10,000 Cr+ across 48 cities. Our mission is to empower every Indian with smart real estate solutions backed by technology and deep expertise.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px">
+        <div style="padding:16px;background:var(--glass3);border:1px solid var(--border);border-radius:var(--r)"><div style="font-family:var(--font-display);font-size:1.8rem;color:var(--gold)">₹10K Cr+</div><div style="font-size:.78rem;color:rgba(248,246,242,.45)">Transactions Facilitated</div></div>
+        <div style="padding:16px;background:var(--glass3);border:1px solid var(--border);border-radius:var(--r)"><div style="font-family:var(--font-display);font-size:1.8rem;color:var(--gold)">98%</div><div style="font-size:.78rem;color:rgba(248,246,242,.45)">Client Satisfaction Score</div></div>
+      </div>
+      <button class="btn-primary">Learn More About Us</button>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team-section">
+  <div class="max-w">
+    <div class="section-header reveal" style="text-align:center;align-items:center">
+      <div class="section-label">Our Leadership</div>
+      <h2 class="section-title">Meet the <em>Team</em></h2>
+    </div>
+    <div class="team-grid stagger">
+      <div class="team-card">
+        <div class="team-img"><div class="team-img-inner t1"></div><div class="team-overlay"></div><div class="team-social"><button class="team-soc-btn">in</button><button class="team-soc-btn">𝕏</button></div></div>
+        <div class="team-name">Vikram Desai</div><div class="team-role">CEO & Co-Founder</div>
+      </div>
+      <div class="team-card">
+        <div class="team-img"><div class="team-img-inner t2"></div><div class="team-overlay"></div><div class="team-social"><button class="team-soc-btn">in</button><button class="team-soc-btn">𝕏</button></div></div>
+        <div class="team-name">Ananya Joshi</div><div class="team-role">Chief Technology Officer</div>
+      </div>
+      <div class="team-card">
+        <div class="team-img"><div class="team-img-inner t3"></div><div class="team-overlay"></div><div class="team-social"><button class="team-soc-btn">in</button><button class="team-soc-btn">𝕏</button></div></div>
+        <div class="team-name">Rohan Malhotra</div><div class="team-role">Head of Sales</div>
+      </div>
+      <div class="team-card">
+        <div class="team-img"><div class="team-img-inner t4"></div><div class="team-overlay"></div><div class="team-social"><button class="team-soc-btn">in</button><button class="team-soc-btn">𝕏</button></div></div>
+        <div class="team-name">Meera Krishnan</div><div class="team-role">Legal & Compliance Head</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="max-w">
+    <div class="section-header reveal" style="text-align:center;align-items:center">
+      <div class="section-label">Get in Touch</div>
+      <h2 class="section-title">Let's Find Your <em>Perfect Property</em></h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info reveal-left">
+        <h3>Contact Details</h3>
+        <div class="contact-item"><div class="contact-icon">📍</div><div class="contact-item-text"><label>Office Address</label><span>5th Floor, Equinox Business Park, Baner Road, Pune 411045, Maharashtra</span></div></div>
+        <div class="contact-item"><div class="contact-icon">📞</div><div class="contact-item-text"><label>Phone</label><span>+91 20 6600 1234 · +91 98765 43210</span></div></div>
+        <div class="contact-item"><div class="contact-icon">✉️</div><div class="contact-item-text"><label>Email</label><span>hello@realestateos.in · legal@realestateos.in</span></div></div>
+        <div class="contact-item"><div class="contact-icon">💬</div><div class="contact-item-text"><label>WhatsApp</label><span>+91 98765 43210</span></div></div>
+        <div class="business-hours">
+          <div class="hours-title">Business Hours</div>
+          <div class="hours-row"><span>Monday – Friday</span><span>9:00 AM – 7:00 PM</span></div>
+          <div class="hours-row"><span>Saturday</span><span>10:00 AM – 5:00 PM</span></div>
+          <div class="hours-row"><span>Sunday</span><span>By Appointment</span></div>
+        </div>
+        <div class="map-placeholder"><div class="map-grid"></div><div class="map-pin">📍</div></div>
+      </div>
+      <div class="contact-form reveal-right">
+        <h3>Send a Message</h3>
+        <div class="form-row">
+          <div class="form-group"><label>First Name</label><input type="text" placeholder="Rahul"/></div>
+          <div class="form-group"><label>Last Name</label><input type="text" placeholder="Sharma"/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Phone</label><input type="tel" placeholder="+91 98765 43210"/></div>
+          <div class="form-group"><label>Email</label><input type="email" placeholder="rahul@example.com"/></div>
+        </div>
+        <div class="form-group"><label>I'm Looking To</label><select><option>Buy a Property</option><option>Sell a Property</option><option>Rent a Property</option><option>Get Home Loan</option><option>Property Valuation</option><option>Investment Advice</option></select></div>
+        <div class="form-group"><label>Property Type</label><select><option>Apartment</option><option>Villa</option><option>Independent House</option><option>Plot / Land</option><option>Commercial Space</option><option>Other</option></select></div>
+        <div class="form-group"><label>Budget Range</label><select><option>Under ₹25L</option><option>₹25L – ₹50L</option><option>₹50L – ₹1Cr</option><option>₹1Cr – ₹2Cr</option><option>Above ₹2Cr</option></select></div>
+        <div class="form-group"><label>Message</label><textarea placeholder="Tell us more about your requirements..."></textarea></div>
+        <button class="form-submit" onclick="this.textContent='✓ Message Sent! We\'ll contact you soon.';this.style.background='#10b981'">Send Message →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#home" class="logo"><div class="logo-icon">⌂</div>RealEstate<span>OS</span></a>
+      <p>India's most trusted real estate platform. Connecting buyers, sellers, and investors with smart property solutions across 48 cities.</p>
+      <div class="social-links">
+        <a href="#" class="social-btn">f</a>
+        <a href="#" class="social-btn">𝕏</a>
+        <a href="#" class="social-btn">in</a>
+        <a href="#" class="social-btn">▶</a>
+        <a href="#" class="social-btn">📷</a>
+      </div>
+      <div class="newsletter">
+        <p>Subscribe for market updates and exclusive listings</p>
+        <div class="newsletter-form">
+          <input type="email" class="newsletter-input" placeholder="your@email.com"/>
+          <button class="newsletter-btn">Subscribe</button>
+        </div>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Properties</h4>
+      <ul>
+        <li><a href="#">Apartments</a></li>
+        <li><a href="#">Villas & Bungalows</a></li>
+        <li><a href="#">Independent Houses</a></li>
+        <li><a href="#">Luxury Homes</a></li>
+        <li><a href="#">Commercial Spaces</a></li>
+        <li><a href="#">Plots & Land</a></li>
+        <li><a href="#">New Projects</a></li>
+        <li><a href="#">Ready to Move</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#">Property Buying</a></li>
+        <li><a href="#">Property Selling</a></li>
+        <li><a href="#">Property Renting</a></li>
+        <li><a href="#">Home Loan</a></li>
+        <li><a href="#">Legal Assistance</a></li>
+        <li><a href="#">Property Valuation</a></li>
+        <li><a href="#">Interior Design</a></li>
+        <li><a href="#">Investment Advisory</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#blog">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#" onclick="openModal('privacy')">Privacy Policy</a></li>
+        <li><a href="#" onclick="openModal('terms')">Terms & Conditions</a></li>
+        <li><a href="#">Sitemap</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 RealEstate OS Pvt. Ltd. All rights reserved. | Built by <strong style="color:var(--gold)">Leadknight</strong></span>
+    <div class="footer-links">
+      <a href="#" onclick="openModal('privacy')">Privacy Policy</a>
+      <a href="#" onclick="openModal('terms')">Terms & Conditions</a>
+      <a href="#">Cookie Policy</a>
+      <a href="#">Disclaimer</a>
+    </div>
+  </div>
+</footer>
+
+<!-- PRIVACY POLICY MODAL -->
+<div class="modal-overlay" id="privacyModal">
+  <div class="modal-box">
+    <div class="modal-header"><h3>Privacy Policy</h3><button class="modal-close" onclick="closeModal('privacy')">✕</button></div>
+    <div class="modal-body">
+      <h4>1. Information We Collect</h4>
+      <p>We collect information you provide directly (name, email, phone, property preferences), information collected automatically (IP address, browser type, pages visited, cookies), and information from third parties (social logins, builder partners).</p>
+      <h4>2. How We Use Your Information</h4>
+      <p>Your information is used to provide and improve our services, match you with relevant properties, communicate about listings and services, process transactions, comply with legal obligations, and personalize your experience on our platform.</p>
+      <h4>3. Cookies Policy</h4>
+      <p>We use essential cookies for site functionality, analytics cookies to understand usage patterns, and preference cookies to remember your settings. You may disable non-essential cookies through your browser settings, though this may affect platform functionality.</p>
+      <h4>4. Your Rights</h4>
+      <p>You have the right to access, correct, or delete your personal data; opt out of marketing communications; request data portability; and lodge a complaint with relevant data protection authorities.</p>
+      <h4>5. Data Security</h4>
+      <p>We employ industry-standard security measures including SSL encryption, access controls, regular security audits, and data minimization practices to protect your personal information.</p>
+      <h4>6. Third-Party Services</h4>
+      <p>We integrate with Google Maps, payment gateways, and analytics providers. These third parties have their own privacy policies and we encourage you to review them. We do not sell your personal data to advertisers.</p>
+      <h4>7. Data Retention</h4>
+      <p>We retain your data for as long as your account is active or as needed to provide services. Transaction records are retained for 7 years as per applicable laws. You may request deletion of your account and associated data at any time.</p>
+      <p style="color:rgba(201,168,76,.8);margin-top:16px">Last updated: January 15, 2025 · Contact: legal@realestateos.in</p>
+    </div>
+  </div>
+</div>
+
+<!-- TERMS MODAL -->
+<div class="modal-overlay" id="termsModal">
+  <div class="modal-box">
+    <div class="modal-header"><h3>Terms & Conditions</h3><button class="modal-close" onclick="closeModal('terms')">✕</button></div>
+    <div class="modal-body">
+      <h4>1. Acceptance of Terms</h4>
+      <p>By accessing or using RealEstate OS, you agree to be bound by these Terms. If you do not agree, please do not use our platform. These terms apply to all visitors, users, and others who access the service.</p>
+      <h4>2. User Responsibilities</h4>
+      <p>Users must provide accurate information, maintain account security, not use the platform for illegal activities, not post false or misleading property listings, and respect intellectual property rights of others.</p>
+      <h4>3. Property Listing Policies</h4>
+      <p>Property listings must be accurate and current, include valid documentation, be listed only by authorized owners or agents, comply with RERA regulations, and not contain discriminatory language. We reserve the right to remove non-compliant listings.</p>
+      <h4>4. Payments & Fees</h4>
+      <p>Service fees are charged for premium listings, verified valuations, and certain advisory services. All payments are processed securely. Refund policies apply as specified at the time of transaction. We are not responsible for disputes between buyers and sellers.</p>
+      <h4>5. Intellectual Property</h4>
+      <p>All content, logos, designs, and software on RealEstate OS are our exclusive intellectual property. Users may not reproduce, distribute, or create derivative works without explicit written permission.</p>
+      <h4>6. Disclaimer</h4>
+      <p>RealEstate OS provides a platform for property discovery and does not act as a real estate broker in all transactions. Property information is provided by sellers/builders and we do not guarantee its accuracy. Users are advised to conduct independent due diligence.</p>
+      <h4>7. Limitation of Liability</h4>
+      <p>To the maximum extent permitted by law, RealEstate OS shall not be liable for indirect, incidental, or consequential damages arising from use of the platform, property transactions, or reliance on information provided.</p>
+      <h4>8. Termination</h4>
+      <p>We may suspend or terminate accounts that violate these terms, engage in fraudulent activity, or harm other users, with or without prior notice. Users may terminate their accounts at any time by contacting support.</p>
+      <p style="color:rgba(201,168,76,.8);margin-top:16px">Last updated: January 15, 2025 · Contact: legal@realestateos.in</p>
+    </div>
+  </div>
+</div>
+
+<!-- CHAT WIDGET -->
+<div class="chat-widget">
+  <div class="chat-popup" id="chatPopup">
+    <h4>👋 Hi there!</h4>
+    <p>Looking for your perfect property? Our experts are here to help you right now.</p>
+    <button class="chat-popup-btn">Start Chat →</button>
+  </div>
+  <button class="chat-btn" onclick="toggleChat()">💬</button>
+</div>
+
+<script>
+// Custom Cursor
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cursor.style.left=mx+'px';cursor.style.top=my+'px';
+});
+function animRing(){
+  rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
+  cursorRing.style.left=rx+'px';cursorRing.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+}
+animRing();
+document.querySelectorAll('a,button,.prop-card,.service-card,.blog-card,.ind-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.width='20px';cursor.style.height='20px';cursorRing.style.width='52px';cursorRing.style.height='52px'});
+  el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';cursorRing.style.width='36px';cursorRing.style.height='36px'});
+});
+
+// Scroll Progress
+window.addEventListener('scroll',()=>{
+  const p=window.scrollY/(document.documentElement.scrollHeight-window.innerHeight)*100;
+  document.getElementById('scroll-progress').style.width=p+'%';
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60);
+});
+
+// Reveal on scroll
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');if(e.target.classList.contains('stagger'))e.target.classList.add('visible')}});
+},{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.stagger').forEach(el=>observer.observe(el));
+
+// Animated Counters
+const counterObserver=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      const el=entry.target;
+      const target=parseInt(el.dataset.target);
+      let start=0;
+      const step=target/60;
+      const timer=setInterval(()=>{
+        start+=step;
+        if(start>=target){el.textContent=target.toLocaleString('en-IN');clearInterval(timer)}
+        else el.textContent=Math.floor(start).toLocaleString('en-IN');
+      },16);
+      counterObserver.unobserve(el);
+    }
+  });
+},{threshold:.5});
+document.querySelectorAll('[data-target]').forEach(el=>counterObserver.observe(el));
+
+// Search Tabs
+function setTab(btn){
+  document.querySelectorAll('.search-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// Property Filters
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+// FAQ
+function toggleFAQ(btn){
+  const item=btn.closest('.faq-item');
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+  if(!isOpen)item.classList.add('open');
+}
+
+// Mobile Nav
+function toggleMobileNav(){
+  document.getElementById('mobileNav').classList.toggle('open');
+  document.body.style.overflow=document.getElementById('mobileNav').classList.contains('open')?'hidden':'';
+}
+
+// Modals
+function openModal(type){
+  document.getElementById(type+'Modal').classList.add('open');
+  document.body.style.overflow='hidden';
+  event.preventDefault();
+}
+function closeModal(type){
+  document.getElementById(type+'Modal').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.querySelectorAll('.modal-overlay').forEach(m=>{
+  m.addEventListener('click',e=>{if(e.target===m){m.classList.remove('open');document.body.style.overflow=''}});
+});
+
+// Chat
+function toggleChat(){
+  document.getElementById('chatPopup').classList.toggle('open');
+}
+
+// Theme Toggle
+function toggleTheme(){
+  document.documentElement.toggleAttribute('data-theme');
+  const isDark=!document.documentElement.hasAttribute('data-theme')||document.documentElement.getAttribute('data-theme')!=='light';
+  document.querySelector('.theme-toggle').textContent=isDark?'☀':'🌙';
+}
+
+// Smooth scroll for anchors
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const target=document.querySelector(a.getAttribute('href'));
+    if(target){e.preventDefault();target.scrollIntoView({behavior:'smooth',block:'start'})}
+  });
+});
+
+// Show chat after delay
+setTimeout(()=>document.getElementById('chatPopup').classList.add('open'),4000);
+setTimeout(()=>document.getElementById('chatPopup').classList.remove('open'),8000);
+</script>
+</body>
+</html>
